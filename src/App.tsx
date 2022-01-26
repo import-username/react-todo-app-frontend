@@ -1,12 +1,13 @@
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import "./App.css";
+import "./App.scss";
 
 function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route exact path="/" element={<div>landing page</div>} />
-                <Route exact path="*" element={<div>404</div>} />
+                <Route path="/" element={<div>landing page</div>} />
+                <Route path="*" element={<div>404</div>} />
             </Routes>
         </BrowserRouter>
     );
