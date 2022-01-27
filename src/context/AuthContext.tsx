@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 interface ContextValue {
     authenticated: string | boolean,
@@ -53,4 +53,8 @@ export default function AuthContextProvider({ children }: { children: React.Reac
             {children}
         </AuthContext.Provider>
     );
+}
+
+export function useAuthContext() {
+    return useContext(AuthContext);
 }
