@@ -1,0 +1,71 @@
+@mixin slideAnimation($direction: slideUp) {
+    opacity: 0;
+    animation-name: $direction;
+    animation-duration: 500ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease;
+}
+
+.slide-up-anim {
+    @include slideAnimation(slideUp);
+}
+
+.slide-left-anim {
+    @include slideAnimation(slideLeft);
+}
+
+.slide-down-anim {
+    @include slideAnimation(slideDown);
+}
+
+.slide-right-anim {
+    @include slideAnimation(slideRight);
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50%);
+    }
+    
+    to {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+}
+
+@keyframes slideLeft {
+    from {
+        opacity: 0;
+        transform: translateX(50%);
+    }
+    
+    to {
+        opacity: 1;
+        transform: translateX(0%);
+    }
+}
+
+@keyframes slideRight {
+    from {
+        opacity: 0;
+        transform: translateX(-50%);
+    }
+    
+    to {
+        opacity: 1;
+        transform: translateX(0%);
+    }
+}
