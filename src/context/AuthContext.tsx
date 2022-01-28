@@ -25,19 +25,19 @@ export default function AuthContextProvider({ children }: { children: React.Reac
 
     // check client auth status
     useEffect(() => {
-        const api: string | undefined = process.env.REACT_APP_API_URL;
+        const api: string = process.env.REACT_APP_API_URL || "";
 
-        if (authenticated === "loading" && api) {
+        if (authenticated === "loading") {
             fetch(`${api}/authenticate`, { method: "GET", credentials: "include" })
                 .then((response) => {
                     if (response.status !== 200) {
                         setAuthenticated(() => false);
+                    } else {
+                        setAuthenticated(() => true);
                     }
-
-                    setAuthenticated(() => true);
                 }).catch((err) => {
                     setAuthenticated(() => false);
-                })
+                });
         }
     }, []);
 
