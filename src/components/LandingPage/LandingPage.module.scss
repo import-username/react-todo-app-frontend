@@ -1,6 +1,65 @@
 $primary-foreground: rgb(36, 36, 36);
 $secondary-foreground: rgb(70, 70, 70);
 
+.landing-page-root {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.checkmark-logo {
+    height: 100%;
+    width: auto;
+    padding: 0 1rem;
+}
+
+.landing-page-header {
+    width: 100%;
+    height: 80px;
+
+    button {
+        min-width: 90px;
+        width: fit-content;
+        padding: 0 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80%;
+        margin: 15px 1rem;
+        float: right;
+        cursor: pointer;
+        border: none;
+        transition: background-color 200ms ease, color 200ms ease;
+
+        span {
+            font-size: 1.2em;
+        }
+    }
+}
+
+.signup-button {
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.signup-button:hover {
+    color: white;
+    background-color: black;
+}
+
+.login-button {
+    color: white;
+    background-color: black;
+}
+
+.login-button:hover {
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+}
+
 .landing-page-container {
     width: 100%;
     height: 100%;
@@ -34,7 +93,7 @@ $secondary-foreground: rgb(70, 70, 70);
 
 @media all and (max-width: 750px) {
     .landing-page-title {
-        font-size: 2.8em;
+        font-size: 2.5em;
         text-align: center;
     }
 
