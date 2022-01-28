@@ -1,5 +1,6 @@
 $primary-foreground: rgb(36, 36, 36);
 $secondary-foreground: rgb(70, 70, 70);
+$primary-background: rgb(160, 160, 160);
 $modal-background: rgba(0, 0, 0, 0.4);
 
 .landing-page-root {
@@ -7,6 +8,25 @@ $modal-background: rgba(0, 0, 0, 0.4);
     height: 100%;
     display: flex;
     flex-direction: column;
+}
+
+.github-link {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    margin: 1rem;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: black;
+
+    svg {
+        width: 100%;
+        height: 100%;
+    }
 }
 
 .checkmark-logo {
@@ -173,7 +193,7 @@ $modal-background: rgba(0, 0, 0, 0.4);
         margin-top: 1rem;
         height: 50px;
         border-radius: 4px;
-        border: 1px solid $primary-foreground;
+        border: 1px solid $primary-background;
         padding: 0 1rem;
         font-size: 1em;
         outline: none;
@@ -189,6 +209,7 @@ $modal-background: rgba(0, 0, 0, 0.4);
         width: 100%;
         position: relative;
         padding-top: 1rem;
+        height: 52px;
 
         button {
             position: absolute;
@@ -221,12 +242,34 @@ $modal-background: rgba(0, 0, 0, 0.4);
     input {
         width: 100%;
         box-sizing: border-box;
-        height: 50px;
+        height: 100%;
         border-radius: 4px;
-        border: 1px solid $primary-foreground;
+        border: 1px solid $primary-background;
         padding: 0 1rem;
         font-size: 1em;
         outline: none;
+    }
+}
+
+.modal-request-button-container {
+    width: 100%;
+    height: fit-content;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+    
+    button {
+        background-color: $primary-foreground;
+        height: 60px;
+        width: 150px;
+        border: none;
+        font-size: 1em;
+        font-weight: bold;
+        border-radius: 30px;
+        transition: background-color 100ms ease, color 100ms ease;
+        cursor: pointer;
     }
 }
 

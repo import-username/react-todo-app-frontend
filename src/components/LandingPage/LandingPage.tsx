@@ -1,8 +1,9 @@
 import React, { useState, useRef } from "react";
 import type { Dispatch, SetStateAction } from "react";
-import { FaEye, FaTimes } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaTimes, FaGithub } from "react-icons/fa";
 import styles from "./LandingPage.module.scss";
 import slideAnims from "../../css/animations/SlideAnims.module.scss";
+import { useNavigate } from "react-router-dom";
 
 type ModalState = [string | boolean, Dispatch<SetStateAction<any>>];
 
@@ -41,16 +42,21 @@ export default function LandingPage() {
                 </div>
             </div>
             {
+                process.env.REACT_APP_GITHUB_REPO_LINK &&
+                <a target={"_blank"} href={process.env.REACT_APP_GITHUB_REPO_LINK || ""} className={styles["github-link"]}>
+                    <FaGithub />
+                </a>
+            }
+            {
                 displayModal
-                ? <LandinPageModal type={displayModal} closeModal={setDisplayModal.bind(null, false)}/>
+                ? <LandingPageModal type={displayModal} closeModal={setDisplayModal.bind(null, false)}/>
                 : undefined
             }
-            
         </>
     );
 }
 
-function LandinPageModal({ type, closeModal }: ModalProps) {
+function LandingPageModal({ type, closeModal }: ModalProps) {
     const modalContainerRef: React.MutableRefObject<any> = useRef();
 
     function hideModal(event: any) {
@@ -58,55 +64,110 @@ function LandinPageModal({ type, closeModal }: ModalProps) {
             closeModal();
         }
     }
-
-    switch (type) {
-        case "login-modal":
-            return (
-                <div ref={modalContainerRef} className={styles["landing-page-modal-container"]} onClick={hideModal}>
-                    <LoginModal hideModal={closeModal.bind(null)} />
-                </div>
-            );
-        case "signup-modal":
-            return (
-                <div ref={modalContainerRef} className={styles["landing-page-modal-container"]} onClick={hideModal}>
-            
-                </div>
-            );
-        default:
-            return (null);    
-    }
+    return (
+        <div ref={modalContainerRef} className={styles["landing-page-modal-container"]} onClick={hideModal}>
+            <Modal type={type} hideModal={closeModal.bind(null)} />
+        </div>
+    );
 }
 
-function LoginModal({ hideModal }: { hideModal: (event: any) => void }) {
+function Modal({ type, hideModal }: { type: ModalType, hideModal: (event: any) => void }) {
+    const [showPassword, setShowPassword] = useState(false);
+
+    const emailRef = useRef<HTMLInputElement>(null);
+    const passwordRef = useRef<HTMLInputElement>(null);
+    const confirmPasswordRef = useRef<HTMLInputElement>(null);
+
+    const navigate = useNavigate();
+
+    const modalProperties = {
+        title: {
+            "login-modal": "LOG IN",
+            "signup-modal": "SIGN UP"
+        },
+        requestButton: {
+            "login-modal": "Login",
+            "signup-modal": "Sign up"
+        }
+    }
+
+    function submitRequest() {
+        switch (type) {
+            case "login-modal":
+                loginRequest();
+                break;
+            case "signup-modal":
+                signupRequest();
+                break;
+        }
+    }
+
+    // TODO - handle errors and non-2xx status codes
+    function loginRequest() {
+        const api: string = process.env.REACT_APP_API_URL || "";
+
+        if (api && emailRef.current && passwordRef.current) {
+            fetch(`${api}/login`, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({ email: emailRef.current.value, password: passwordRef.current.value })
+            }).then((response) => {
+                if (response.status !== 200) {
+                    return console.log("Request failed.");
+                } else {
+                    hideModal(null);
+    
+                    navigate("/");
+                }
+            }).catch((err) => {
+                console.log("Request failed.");
+            });
+        }
+    }
+
+    function signupRequest() {
+
+    }
+
     return (
         <div className={styles["modal-container"]}>
             <button className={styles["modal-close-button"]} onClick={hideModal}>
                 <FaTimes />
             </button>
             <div className={styles["modal-heading-container"]}>
-                <h1>LOG IN</h1>
+                <h1>{ modalProperties.title[type] }</h1>
             </div>
             <div className={styles["email-container"]}>
                 <span>EMAIL</span>
-                <input placeholder="Enter email" type={"email"} name="email"/>
+                <input ref={emailRef} placeholder="Enter email" type={"email"} name="email"/>
             </div>
             <div className={styles["password-container"]}>
                 <span>PASSWORD</span>
                 <div>
-                    <input placeholder="Enter password" type={"password"} name="password" />
-                    <button>
-                        <FaEye />
+                    <input ref={passwordRef} placeholder="Enter password" type={showPassword ? "text" : "password"} name="password" />
+                    <button onClick={setShowPassword.bind(null, !showPassword)}>
+                    {
+                            showPassword
+                            ? <FaEye />
+                            : <FaEyeSlash />
+                        }
                     </button>
                 </div>
             </div>
-        </div>
-    );
-}
-
-function SignupModal() {
-    return (
-        <div className={styles["signup-modal-container"]}>
-
+            {
+                type === "signup-modal" &&
+                <div className={styles["password-container"]}>
+                <span>CONFIRM PASSWORD</span>
+                <div>
+                    <input ref={confirmPasswordRef} placeholder="Confirm password" type={showPassword ? "text" : "password"} name="password" />
+                </div>
+            </div>
+            }
+            <div className={styles["modal-request-button-container"]}>
+                <button onClick={submitRequest} className={styles["login-button"]}>{ modalProperties.requestButton[type] }</button>
+            </div>
         </div>
     );
 }
