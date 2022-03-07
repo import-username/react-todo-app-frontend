@@ -5,6 +5,7 @@ import styles from "./LandingPage.module.scss";
 import slideAnims from "../../css/animations/SlideAnims.module.scss";
 import { useNavigate } from "react-router-dom";
 import { isResponseSuccessful } from "../../helper/HttpHelper";
+import { useAuthContext } from "../../context/AuthContext";
 
 type ModalState = [string | boolean, Dispatch<SetStateAction<any>>];
 
@@ -80,6 +81,8 @@ function Modal({ type, hideModal }: { type: ModalType, hideModal: (event: any) =
     const passwordRef = useRef<HTMLInputElement>(null);
     const confirmPasswordRef = useRef<HTMLInputElement>(null);
 
+    const { login, signup } = useAuthContext();
+
     const navigate = useNavigate();
 
     const modalProperties = {
@@ -105,48 +108,35 @@ function Modal({ type, hideModal }: { type: ModalType, hideModal: (event: any) =
     }
 
     // TODO - handle errors and non-2xx status codes
-    function loginRequest() {
-        const api: string = process.env.REACT_APP_API_URL || "";
-
-        if (api && (emailRef.current && passwordRef.current)) {
-            fetch(`${api}/login`, {
-                method: "POST",
-                headers: {
-                    "content-type": "application/json"
-                },
-                body: JSON.stringify({ email: emailRef.current.value, password: passwordRef.current.value })
-            }).then((response) => {
-                if (!isResponseSuccessful(response.status)) {
-                    return console.log("Request failed.");
-                } else {
-                    hideModal(null);
+    async function loginRequest() {
+        if (emailRef.current && passwordRef.current) {
+            try {
+                const loginRequest = await login(emailRef.current.value, passwordRef.current.value);
     
+                if (loginRequest.status !== 200) {
+                    //TODO - handle non-2xx code here
+                } else {
                     navigate("/");
                 }
-            }).catch((err) => {
-                console.log("Request failed.");
-            });
+            } catch (exc) {
+                // TODO - handle errors here
+                console.log("Login request error.");
+            }
         }
     }
 
-    function signupRequest() {
-        const api: string = process.env.REACT_APP_API_URL || "";
-
+    async function signupRequest() {
         if (emailRef.current && passwordRef.current && confirmPasswordRef.current) {
-            if (api && (passwordRef.current.value === confirmPasswordRef.current.value)) {
-                fetch(`${api}/signup`, {
-                    method: "POST",
-                    headers: {
-                        "content-type": "application/json"
-                    },
-                    body: JSON.stringify({ email: emailRef.current.value, password: passwordRef.current.value })
-                }).then((response) => {
-                    if (response.status !== 200) {
-                        console.log("Request failed.")
-                    }
-                }).catch((err) => {
-                    console.log("Request failed.")
-                })
+            try {
+                const signupRequest = await signup(emailRef.current.value, passwordRef.current.value);
+
+                if (!isResponseSuccessful(signupRequest.status)) {
+                    //TODO - handle non-2xx code here
+                } else {
+                    hideModal(null);
+                }
+            } catch (exc) {
+                console.log("Signup request error.");
             }
         }
     }

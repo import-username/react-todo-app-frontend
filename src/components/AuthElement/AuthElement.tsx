@@ -19,7 +19,7 @@ interface Props {
  * @param {boolean} loadScreen Renders a loading screen while waiting for auth request to fulfill.
  */
 export default function AuthElement({ defaultElement, redirectPath, loadScreen, children }: Props) {
-    const { authenticated }: { authenticated: boolean | "loading" }  = useAuthContext();
+    const { authenticated }  = useAuthContext();
 
     return (
         <>
