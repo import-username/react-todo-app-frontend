@@ -18,8 +18,8 @@ const AuthContext: React.Context<any> = React.createContext(null);
 export default function AuthContextProvider({ children }: { children: React.ReactElement }) {
     const [authenticated, setAuthenticated]: AuthState = useState("loading");
 
-    async function login(email: string, password: string): Promise<Response> {
-        const api: string = process.env.REACT_APP_API_URL || "";
+    async function login(email: string, password: string, url?: string): Promise<Response> {
+        const api: string = url || process.env.REACT_APP_API_URL || "";
 
         return new Promise((resolve, reject) => {
             fetch(`${api}/login`, {
@@ -46,7 +46,7 @@ export default function AuthContextProvider({ children }: { children: React.Reac
     }
 
     async function signup(email: string, password: string, url?: string): Promise<Response> {
-        const api: string = process.env.REACT_APP_API_URL || "";
+        const api: string = url || process.env.REACT_APP_API_URL || "";
 
         return new Promise((resolve, reject) => {
             fetch(`${api}/signup`, {
