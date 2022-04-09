@@ -3,6 +3,7 @@ import { FaSearch, FaPlus } from "react-icons/fa";
 import { TodoListStateHook } from "../TodoListPage";
 import styles from "./TodoListSidebar.module.scss";
 import { ReactComponent as IconSvg } from "../../../assets/checkmark-logo.svg";
+import { ReactComponent as LoadingCircle } from "../../../assets/loading-circle-1.svg";
 import TodoListItem from "../TodoListItem/TodoListItem";
 
 export default function TodoListSidebar({ todoListState, addTodoListItem, removeTodoList }: TodoListStateHook) {
@@ -26,8 +27,12 @@ export default function TodoListSidebar({ todoListState, addTodoListItem, remove
                     </button>
                 </div>
             </div>
-            <div className="todo-lists-container">
+            <div className={styles["todo-lists-container"]}>
                 {
+                    !todoListState ?
+                    <div className={styles["todo-lists-loading-container"]}>
+                        <LoadingCircle />
+                    </div> :
                     todoListState.map((todoList) => {
                         return (
                             <TodoListItem todoListItem={todoList} />

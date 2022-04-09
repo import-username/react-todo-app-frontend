@@ -17,11 +17,15 @@ export default function TodoListPage() {
 }
 
 function useTodoListState(): TodoListStateHook {
-    const [todoLists, setTodoLists]: [TodoList[], React.SetStateAction<any>] = useState([]);
+    const [todoLists, setTodoLists]: [TodoList[] | null, React.SetStateAction<any>] = useState(null);
 
     function addTodoListItem(listItem: TodoList) {
         if (listItem) {
-            setTodoLists(() => [...todoLists, listItem]);
+            if (todoLists) {
+                setTodoLists(() => [...todoLists, listItem]);
+            } else {
+                setTodoLists(() => [listItem]);
+            }
         }
     }
 
@@ -41,7 +45,7 @@ function useTodoListState(): TodoListStateHook {
 }
 
 export interface TodoListStateHook {
-    todoListState: TodoList[],
+    todoListState: TodoList[] | null,
     addTodoListItem: (listItem: TodoList) => void,
     removeTodoList: (listItem: TodoList) => void
 }
