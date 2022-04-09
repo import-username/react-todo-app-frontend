@@ -1,0 +1,36 @@
+.todo-list-item-container {
+    background-color: rgb(59, 59, 59);
+    margin: 2rem;
+    height: 120px;
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    transition: 150ms transform, 150ms opacity;
+
+    .todo-list-item-title {
+        color: white;
+        font-weight: 600;
+        font-size: 1.1em;
+        max-height: 50px;
+        overflow: hidden;
+        word-wrap: break-word;
+        text-overflow: ellipsis;
+        display: inline-block;
+    }
+
+    .todo-list-item-date {
+        margin-top: auto;
+    }
+}
+
+.todo-list-item-container:hover {
+    transform: scale(1.1);
+}
+
+.todo-list-item-container:active {
+    opacity: 0.65;
+}
