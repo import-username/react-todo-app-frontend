@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { isResponseSuccessful } from "../../helper/HttpHelper";
 import styles from "./TodoListPage.module.scss";
 import TodoListSidebar from "./TodoListSidebar/TodoListSidebar";
 
@@ -6,7 +7,26 @@ export default function TodoListPage() {
     const { todoListState, addTodoListItem, removeTodoList } = useTodoListState();
 
     useEffect(() => {
-        // fetch todo lists from backend here
+        (async function() {
+            const api: string = process.env.REACT_APP_API_URL + "/todo-list/get-todo-lists";
+
+            const request = await fetch(api, { method: "GET", credentials: "include" });
+
+            if (!isResponseSuccessful(request.status)) {
+                return console.log("Failed to populate todo list sidebar.") ;
+            } else {
+                const response = await request.json();
+                
+                response.rows.forEach((todoList: TodoList) => {
+                    addTodoListItem({
+                        id: todoList.id,
+                        title: todoList.title,
+                        fields: todoList.fields,
+                        createdAt: new Date(todoList.createdAt).toDateString()
+                    });
+                });
+            }
+        })();
     }, []);
 
     return (
@@ -21,11 +41,13 @@ function useTodoListState(): TodoListStateHook {
 
     function addTodoListItem(listItem: TodoList) {
         if (listItem) {
-            if (todoLists) {
-                setTodoLists(() => [...todoLists, listItem]);
-            } else {
-                setTodoLists(() => [listItem]);
-            }
+            setTodoLists((state: TodoList[] | null) => {
+                if (state) {
+                    return [...state, listItem];
+                } else {
+                    return [listItem];
+                }
+            });
         }
     }
 

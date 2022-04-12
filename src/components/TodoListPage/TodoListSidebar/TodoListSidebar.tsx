@@ -27,6 +27,7 @@ export default function TodoListSidebar({ todoListState, addTodoListItem, remove
                     </button>
                 </div>
             </div>
+            <hr className={styles["todo-list-sidebar-divider"]}/>
             <div className={styles["todo-lists-container"]}>
                 {
                     !todoListState ?

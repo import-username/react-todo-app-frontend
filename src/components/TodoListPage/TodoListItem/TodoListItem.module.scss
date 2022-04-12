@@ -1,7 +1,7 @@
 .todo-list-item-container {
     background-color: rgb(59, 59, 59);
     margin: 2rem;
-    height: 120px;
+    min-height: 120px;
     border-radius: 5px;
     cursor: pointer;
     user-select: none;
