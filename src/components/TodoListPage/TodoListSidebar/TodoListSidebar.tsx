@@ -36,7 +36,7 @@ export default function TodoListSidebar({ todoListState, addTodoListItem, remove
                     </div> :
                     todoListState.map((todoList) => {
                         return (
-                            <TodoListItem todoListItem={todoList} />
+                            <TodoListItem key={todoList.id} todoListItem={todoList} />
                         );
                     })
                 }
