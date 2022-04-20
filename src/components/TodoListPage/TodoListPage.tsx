@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { isResponseSuccessful } from "../../helper/HttpHelper";
+import TodoListContent from "./TodoListContent/TodoListContent";
 import styles from "./TodoListPage.module.scss";
 import TodoListSidebar from "./TodoListSidebar/TodoListSidebar";
 
 export default function TodoListPage() {
+    const [selectedTodoList, setSelectedTodoList]: [TodoList | null, React.SetStateAction<any>] = useState(null);
+
     const { todoListState, addTodoListItem, removeTodoList } = useTodoListState();
 
     useEffect(() => {
@@ -32,6 +35,7 @@ export default function TodoListPage() {
     return (
         <div className={styles["todo-list-container"]}>
             <TodoListSidebar todoListState={todoListState} addTodoListItem={addTodoListItem} removeTodoList={removeTodoList}/>
+            <TodoListContent selectedTodoListState={selectedTodoList} />
         </div>
     );
 }
