@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { isResponseSuccessful } from "../../helper/HttpHelper";
+import TodoListContent from "./TodoListContent/TodoListContent";
 import styles from "./TodoListPage.module.scss";
 import TodoListSidebar from "./TodoListSidebar/TodoListSidebar";
 
@@ -32,6 +33,7 @@ export default function TodoListPage() {
     return (
         <div className={styles["todo-list-container"]}>
             <TodoListSidebar todoListState={todoListState} addTodoListItem={addTodoListItem} removeTodoList={removeTodoList}/>
+            <TodoListContent />
         </div>
     );
 }

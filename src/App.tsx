@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useRoutes } from "react-router-dom";
 import "./App.scss";
 import AuthElement from "./components/AuthElement/AuthElement";
 import LandingPage from "./components/LandingPage/LandingPage";
@@ -10,7 +10,16 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<AuthElement loadScreen defaultElement={<LandingPage />}><TodoListPage /></AuthElement>} />
+                {
+                    ["/", "/:id"].map((route: string, index: number) => {
+                        return (
+                            <Route
+                                path={route}
+                                element={<AuthElement loadScreen defaultElement={<LandingPage />}><TodoListPage /></AuthElement>}
+                                key={index}/>
+                        );
+                    })
+                }
                 <Route path="*" element={<NotFoundPage/>} />
             </Routes>
         </BrowserRouter>
