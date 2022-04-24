@@ -1,4 +1,4 @@
-import React, { MouseEvent, MouseEventHandler } from "react";
+import React from "react";
 import { FaCheck, FaEllipsisV } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { TodoList } from "../TodoListPage";
@@ -30,9 +30,6 @@ export default function TodoListItem({ todoListItem }: { todoListItem: TodoList 
                     <span className={styles["todo-list-item-date"]}>{ date }</span>
                 </div>
             </div>
-            <button className={styles["todo-list-item-options-btn"]}>
-                <FaEllipsisV />
-            </button>
         </div>
     );
 }
