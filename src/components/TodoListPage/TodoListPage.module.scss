@@ -1,12 +1,7 @@
 .todo-list-container {
+    position: relative;
     display: flex;
     flex-direction: row;
     width: 100%;
     height: 100%;
-}
-
-@media all and (max-width: 850px) {
-    .todo-list-container {
-        flex-direction: column;
-    }
 }
