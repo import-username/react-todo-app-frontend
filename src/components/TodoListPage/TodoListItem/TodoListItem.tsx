@@ -9,7 +9,7 @@ export default function TodoListItem({ todoListItem }: { todoListItem: TodoList 
 
     const location = useLocation();
 
-    const title: string = todoListItem.title.substring(0, 55).trim() + (todoListItem.title.length > 20 ? "..." : "");
+    const title: string = todoListItem.title.substring(0, 15).trim() + (todoListItem.title.length > 15 ? "..." : "");
 
     const date: string = getTodoListDate(todoListItem);
 
